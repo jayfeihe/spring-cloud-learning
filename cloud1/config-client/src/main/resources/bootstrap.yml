@@ -1,0 +1,25 @@
+#特别注意：该客户端能读取的配置文件为  config-client-dev.properties 或 config-client-dev.yml
+spring:
+  application:
+    name: config-client
+  cloud:
+    config:
+      uri: http://localhost:1112/
+      fail-fast: true
+  profiles:
+    active: dev
+    bus:
+      trace:
+        enabled: true
+      enabled: true
+server:
+  port: 1113
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
+      cors:
+        allowed-origins: "*"
+        allowed-methods: "*"

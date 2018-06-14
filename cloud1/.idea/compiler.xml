@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="api-zuul-gateway" />
+        <module name="compute-service-provider" />
+        <module name="config-client" />
+        <module name="config-server" />
+        <module name="config-server-native-local" />
+        <module name="eureka-feign" />
+        <module name="eureka-ribbon" />
+        <module name="eurka-server" />
+        <module name="hystrix-feign-consumer" />
+        <module name="hystrix-turbine-monitor" />
+        <module name="service-provider1" />
+        <module name="service-provider2" />
+        <module name="zuul-book-service" />
+        <module name="zuul-sale-service" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="api-zuul-gateway" target="1.8" />
+      <module name="cloud-sleuth-zipkin" target="1.8" />
+      <module name="cloud-sleuth-zipkin-client" target="1.8" />
+      <module name="compute-service-provider" target="1.8" />
+      <module name="config-client" target="1.8" />
+      <module name="config-server" target="1.8" />
+      <module name="config-server-native-local" target="1.8" />
+      <module name="eureka-feign" target="1.8" />
+      <module name="eureka-ribbon" target="1.8" />
+      <module name="eurka-server" target="1.8" />
+      <module name="hystrix-feign-consumer" target="1.8" />
+      <module name="hystrix-turbine-monitor" target="1.8" />
+      <module name="service-provider1" target="1.8" />
+      <module name="service-provider2" target="1.8" />
+      <module name="zuul-book-service" target="1.8" />
+      <module name="zuul-sale-service" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

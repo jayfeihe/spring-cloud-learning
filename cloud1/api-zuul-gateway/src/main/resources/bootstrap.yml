@@ -1,0 +1,10 @@
+server:
+  port: 5555
+spring:
+  application:
+    name: api-zuul-gateway
+eureka:
+  client:
+    serviceUrl:
+    #eureka.client.serviceUrl.defaultZone 指明注册中心的地址  http://localhost:1111/eureka/,http://localhost:1112/eureka/
+      defaultZone: http://localhost:1111/eureka/

@@ -1,0 +1,10 @@
+server:
+  port: 10010
+eureka:
+  client:
+    serviceUrl:
+      # 服务器注册/获取服务器的zone
+      defaultZone: http://127.0.0.1:1111/eureka/
+spring:
+  application:
+    name: sleuth-zipkin-zuul

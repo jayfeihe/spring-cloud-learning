@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: oauth2-provider
+  # 配置mysql
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/jay_db1?zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2b8
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  security:
+      user:
+      #Security的登录名和密码
+        name: root
+        password: root
+
+security:
+  oauth2:
+    resource:
+      filter-order: 3

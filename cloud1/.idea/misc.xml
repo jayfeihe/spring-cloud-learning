@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/compute-service-provider/pom.xml" />
+        <option value="$PROJECT_DIR$/eureka-feign/pom.xml" />
+        <option value="$PROJECT_DIR$/eureka-ribbon/pom.xml" />
+        <option value="$PROJECT_DIR$/eurka-server/pom.xml" />
+        <option value="$PROJECT_DIR$/api-zuul-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/service-provider1/pom.xml" />
+        <option value="$PROJECT_DIR$/service-provider2/pom.xml" />
+        <option value="$PROJECT_DIR$/hystrix-feign-consumer/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-sleuth-zipkin/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-sleuth-zipkin-client/pom.xml" />
+        <option value="$PROJECT_DIR$/zuul-book-service/pom.xml" />
+        <option value="$PROJECT_DIR$/zuul-sale-service/pom.xml" />
+        <option value="$PROJECT_DIR$/hystrix-turbine-monitor/pom.xml" />
+        <option value="$PROJECT_DIR$/config-server/pom.xml" />
+        <option value="$PROJECT_DIR$/config-client/pom.xml" />
+        <option value="$PROJECT_DIR$/config-server-native-local/pom.xml" />
+      </list>
+    </option>
+  </component>
+</project>

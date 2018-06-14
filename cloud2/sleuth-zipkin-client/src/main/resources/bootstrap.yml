@@ -1,0 +1,36 @@
+server:
+  port: 10000
+eureka:
+  client:
+    serviceUrl:
+      # 服务器注册/获取服务器的zone
+      defaultZone: http://127.0.0.1:1111/eureka/
+
+#Spring Boot Admin 需要开启以下配置
+endpoints:
+  health:
+    sensitive: false
+    enabled: true
+  actuator:
+    enabled: true
+    sensitive: false
+  beans:
+    sensitive: false
+    enabled: true
+management:
+  endpoints:
+      web:
+        exposure:
+          include: "*"
+  security:
+    enabled: false
+  endpoint:
+    health:
+      show-details: always
+spring:
+  boot:
+    admin:
+      client:
+        #这里配置admin server的地址
+        url: http://localhost:19999
+#Spring Boot Admin 需要开启以上配置

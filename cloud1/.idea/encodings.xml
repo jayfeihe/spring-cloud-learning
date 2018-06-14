@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/api-zuul-gateway" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/compute-service-provider" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/config-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/config-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/config-server-native-local" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/eureka-feign" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/eureka-ribbon" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/eurka-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hystrix-feign-consumer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hystrix-turbine-monitor" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-provider1" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-provider2" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zuul-book-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zuul-sale-service" charset="UTF-8" />
+  </component>
+</project>

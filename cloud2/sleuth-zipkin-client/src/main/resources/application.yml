@@ -1,0 +1,12 @@
+spring:
+  zipkin:
+    #启动zipkin
+    enabled: true
+    #指定zipkin地址
+    base-url: http://localhost:9999
+  sleuth:
+    sampler:
+      #采样率，默认值为0.1f，现在为了测试设置100%采集
+      probability: 1.0
+  application:
+    name: microservice-zipkin-client-backend

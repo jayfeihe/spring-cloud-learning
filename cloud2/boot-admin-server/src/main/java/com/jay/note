@@ -1,0 +1,144 @@
+Spring Boot Admin监控Spring Cloud微服务
+    1.Spring Boot Admin监控内容：
+      监控组件Actuator的各个Http节点
+      集成Turbine，聚合监控微服务系统中熔断器的状况
+      集成Security安全登录界面
+
+    2.搭建Spring Boot Admin
+        参考：
+            https://my.oschina.net/u/3877886/blog/1825253
+            https://my.oschina.net/go4it/blog/1816348
+      1.服务端
+            1.添加依赖
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+                </dependency>
+                <!--Spring Boot Admin依赖-->
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-actuator</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>de.codecentric</groupId>
+                    <artifactId>spring-boot-admin-starter-server</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.jolokia</groupId>
+                    <artifactId>jolokia-core</artifactId>
+                </dependency>
+
+            2.配置文件
+                spring:
+                   application:
+                     name: boot-admin-server
+                   boot:
+                    admin:
+                      routes:
+                        endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream
+                   #      turbine:
+                   #        clusters: default
+                   #        location: service-turbine
+                server:
+                  port: 19999
+                eureka:
+                  client:
+                    serviceUrl:
+                      # 服务器注册/获取服务器的zone
+                      defaultZone: http://127.0.0.1:1111/eureka/
+                      # defaultZone: http://192.168.21.3:10761/eureka/,http://192.168.21.4:10761/eureka/
+                  instance:
+                    prefer-ip-address: true
+                #Spring Boot Admin 需要开启以下配置
+                endpoints:
+                  health:
+                    sensitive: false
+                    enabled: true
+                  actuator:
+                    enabled: true
+                    sensitive: false
+                  beans:
+                    sensitive: false
+                    enabled: true
+                management:
+                  security:
+                    enabled: false
+                #Spring Boot Admin 需要开启以上配置
+
+                logging:
+                  file: "logs/boot-admin-sample.log"
+
+
+            3.启动类添加注解
+                @SpringBootApplication
+                @EnableAdminServer
+                @EnableEurekaClient
+                public class BootAdminServerApplication {
+
+                }
+
+            4.访问
+                http://localhost:19999/
+
+
+
+      2.客户端
+            1.添加依赖
+                <!--Spring Boot Admin2.0客户端依赖-->
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-actuator</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>de.codecentric</groupId>
+                    <artifactId>spring-boot-admin-starter-client</artifactId>
+                    <version>2.0.0</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.jolokia</groupId>
+                    <artifactId>jolokia-core</artifactId>
+                </dependency>
+
+            2.配置文件
+                server:
+                  port: 10000
+                eureka:
+                  client:
+                    serviceUrl:
+                      # 服务器注册/获取服务器的zone
+                      defaultZone: http://127.0.0.1:1111/eureka/
+
+                #Spring Boot Admin 需要开启以下配置
+                endpoints:
+                  health:
+                    sensitive: false
+                    enabled: true
+                  actuator:
+                    enabled: true
+                    sensitive: false
+                  beans:
+                    sensitive: false
+                    enabled: true
+                management:
+                  endpoints:
+                      web:
+                        exposure:
+                          include: "*"
+                  security:
+                    enabled: false
+                  endpoint:
+                    health:
+                      show-details: always
+                spring:
+                  boot:
+                    admin:
+                      client:
+                        #这里配置admin server的地址
+                        url: http://localhost:19999
+                #Spring Boot Admin 需要开启以上配置
+
+            3.启动
+                @SpringCloudApplication
+                public class SleuthZipkinClientApplication {
+
+                }

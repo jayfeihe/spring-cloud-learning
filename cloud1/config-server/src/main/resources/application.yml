@@ -1,0 +1,16 @@
+server:
+  port: 1112
+#remote git properties  远程配置文件
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          #远程配置文件地址  ---   git仓库地址
+          uri: https://github.com/jayfeihe/JayMircoMall
+          #远程配置目录 --- 配置仓库路径
+          search-paths: respo
+      #配置仓库分支
+      label: master
+  application:
+    name: config-server

@@ -1,0 +1,14 @@
+
+spring:
+   application:
+     name: sleuth-zipkin-dashboard
+server:
+  port: 9999
+eureka:
+  client:
+    serviceUrl:
+      # 服务器注册/获取服务器的zone
+      defaultZone: http://127.0.0.1:1111/eureka/
+      # defaultZone: http://192.168.21.3:10761/eureka/,http://192.168.21.4:10761/eureka/
+  instance:
+    prefer-ip-address: true

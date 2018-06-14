@@ -1,0 +1,38 @@
+spring:
+   application:
+     name: boot-admin-turbine-server
+   boot:
+    admin:
+      routes:
+        endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream,turbine.stream
+      turbine:
+        clusters: default
+        location: turbine-service
+server:
+  port: 20000
+eureka:
+  client:
+    serviceUrl:
+      # 服务器注册/获取服务器的zone
+      defaultZone: http://127.0.0.1:1111/eureka/
+      # defaultZone: http://192.168.21.3:10761/eureka/,http://192.168.21.4:10761/eureka/
+  instance:
+    prefer-ip-address: true
+#Spring Boot Admin 需要开启以下配置
+endpoints:
+  health:
+    sensitive: false
+    enabled: true
+  actuator:
+    enabled: true
+    sensitive: false
+  beans:
+    sensitive: false
+    enabled: true
+management:
+  security:
+    enabled: false
+#Spring Boot Admin 需要开启以上配置
+
+logging:
+  file: "logs/boot-admin-sample.log"

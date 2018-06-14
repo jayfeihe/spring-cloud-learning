@@ -1,0 +1,15 @@
+zuul:
+  #http://localhost:5555/sale/noRoute  该请求将不会进行路由转发
+  ignored-patterns: /sale/noRoute
+  routes:
+    sale:
+      path: /sale/**
+      url: zuul-sale-provider
+    book:
+      path: /book/**
+      url: zuul-book-provider
+    routeTest:
+      path: /routeTest/163
+      url: http://www.163.com
+    route163:
+      url: http://www.163.com

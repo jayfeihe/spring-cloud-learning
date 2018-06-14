@@ -1,0 +1,286 @@
+Spring Cloud Sleuth   微服务链路追踪
+    提供分布式系统服务链路追踪，去跟进一个请求到底调用了哪些服务参与，参与的顺序是怎样，达到每个请求的步骤清晰可见，出问题能快速定位
+    常用链路追踪方案：
+        Google的Dapper
+        Twitter的Zipkin
+        阿里的Eagleeye(鹰眼)
+
+    sleuth-zipkin服务端
+        1.添加依赖
+            <!-- zipkin 界面-->
+            <dependency>
+                <groupId>io.zipkin.java</groupId>
+                <artifactId>zipkin-autoconfigure-ui</artifactId>
+                <version>2.8.4</version>
+            </dependency>
+            <!-- zipkin 服务类-->
+            <dependency>
+                <groupId>io.zipkin.java</groupId>
+                <artifactId>zipkin-server</artifactId>
+                <version>2.8.4</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-log4j2</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.netflix.hystrix</groupId>
+                <artifactId>hystrix-javanica</artifactId>
+                <version>1.5.12</version>
+            </dependency>
+
+        2.启动类添加注解
+            @SpringCloudApplication
+            @EnableZipkinServer
+            public class SleuthZipkinServerApplication {
+
+        3.配置文件
+            spring:
+               application:
+                 name: sleuth-zipkin-dashboard
+            server:
+              port: 9999
+            eureka:
+              client:
+                serviceUrl:
+                  # 服务器注册/获取服务器的zone
+                  defaultZone: http://127.0.0.1:1111/eureka/
+
+        4.启动服务端
+            mvn spring-boot:run
+
+        5.访问
+            http://localhost:9999/zipkin/
+
+
+
+    sleuth-zipkin客户端
+        1.添加依赖
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-sleuth</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-zipkin</artifactId>
+            </dependency>
+
+        2.配置文件
+            1.zuul-gateway客户端    ---  api路由
+                bootstrap.yml
+                    server:
+                      port: 10010
+                    eureka:
+                      client:
+                        serviceUrl:
+                          # 服务器注册/获取服务器的zone
+                          defaultZone: http://127.0.0.1:1111/eureka/
+                    spring:
+                      application:
+                        name: sleuth-zipkin-zuul
+
+                application.yml
+                    spring:
+                      zipkin:
+                        base-url: http://localhost:9999
+                      sleuth:
+                        sampler:
+                          probability: 1.0
+                    zuul:
+                      routes:
+                        api-a:
+                          path: /user-api/**
+                          serviceId: microservice-zipkin-client-backend
+
+
+            2.普通客户端   ---  服务提供者
+                bootstrap.yml
+                    server:
+                      port: 10000
+                    eureka:
+                      client:
+                        serviceUrl:
+                          # 服务器注册/获取服务器的zone
+                          defaultZone: http://127.0.0.1:1111/eureka/
+
+                application.yml
+                    spring:
+                      zipkin:
+                        #启动zipkin
+                        enabled: true
+                        #指定zipkin地址
+                        base-url: http://localhost:9999
+                      sleuth:
+                        sampler:
+                          #采样率，默认值为0.1f，现在为了测试设置100%采集
+                          probability: 1.0
+                      application:
+                        name: microservice-zipkin-client-backend
+
+        3.启动服务
+            1.zuul-gateway客户端    ---  api路由
+                @SpringCloudApplication
+                @EnableZuulProxy
+                public class SleuthZipkinZuulApplication {
+
+            2.普通客户端   ---  服务提供者
+                @SpringCloudApplication
+                public class SleuthZipkinClientApplication {
+
+
+        4.查看sleuth调用链
+            http://localhost:9999/zipkin/
+                1.服务名中，会有已启动的服务信息
+                2.点击Find Traces 显示调用信息
+                3.Limit  当前显示调用信息条数
+                4.Sort   显示的排序规则
+                         Longest  First  ----   按调用时长排序   最长在前
+                         Shortest First  ----   按调用时长排序   最段在前
+                         Newest   First  ----   按调用时间排序   最新调用在前
+                         Oldest   First  ----   按调用时间排序   最旧调用在前
+
+        5.调用服务
+            调用api服务
+                http://localhost:10010/user-api/call/test
+            在zipkin中查看服务调用信息
+                调用链时长、参数、调用等信息
+
+
+
+
+    使用RabbitMQ传输链路数据   ----  将链路的上传数据从Http改为RabbitMQ     ---   默认是： Http
+        服务端改造：
+            1.去掉 zipkin-server依赖，替换为以下：
+
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-sleuth-zipkin-stream</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+                </dependency>
+
+            2.配置文件，添加RabbitMQ配置
+
+            3.启动类注解  @EnableZipkinServer  替换为 @@EnableZipkinStreamServer
+                @SpringCloudApplication
+                @EnableZipkinStreamServer
+                public class SleuthZipkinServerApplication {
+
+
+
+        客户端改造：
+            1.将spring-cloud-starter-zipkin替换为以下
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-sleuth-zipkin-stream</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-binder-rabbit</artifactId>
+                </dependency>
+
+            2.配置文件，添加RabbitMQ配置
+
+
+
+
+    使用MySQL存储链路数据
+        默认，zipkin存储记录到内存，服务重启后，会丢失，
+        zipkin支持MySQL、ElasticSearch、Cassandra存储
+
+        1.引入jar包
+            <!--MySQL存储zipkin信息-->
+            <!-- zipkin 存储到数据库需要引入此类 -->
+            <dependency>
+                <groupId>io.zipkin.java</groupId>
+                <artifactId>zipkin-storage-mysql</artifactId>
+                <version>2.8.4</version>
+            </dependency>
+
+            <!--保存到数据库需要如下依赖-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-jdbc</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+            </dependency>
+
+
+        2.配置参数
+            bootstrap.yml
+
+                spring:
+                   application:
+                     name: sleuth-zipkin-dashboard
+                server:
+                  port: 9999
+                eureka:
+                  client:
+                    serviceUrl:
+                      # 服务器注册/获取服务器的zone
+                      defaultZone: http://127.0.0.1:1111/eureka/
+                      # defaultZone: http://192.168.21.3:10761/eureka/,http://192.168.21.4:10761/eureka/
+                  instance:
+                    prefer-ip-address: true
+
+
+            application.yml
+
+                spring:
+                  zipkin:
+                    enabled: false
+                  # 配置mysql
+                  datasource:
+                    schema: classpath:/mysql.sql
+                    # url: jdbc:mysql://127.0.0.1/test
+                    url: jdbc:mysql://127.0.0.1:3306/jay_db1?zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2b8
+                    username: root
+                    password: root
+                # Switch this on to create the schema on startup:
+                    initialize: true
+                    continueOnError: true
+                  sleuth:
+                    enabled: false
+                zipkin:
+                  storage:
+                    type: mysql
+
+
+        3.启动类中配置  MySQLStorage 对象
+
+            @SpringBootApplication
+            @EnableZipkinServer
+            public class SleuthZipkinServerApplication {
+
+                @Bean
+                public MySQLStorage mySQLStorage(DataSource dataSource){
+                    return MySQLStorage.builder().datasource(dataSource).executor(Runnable::run).build();
+                }
+
+                public static void main(String[] args) {
+                    SpringApplication.run(SleuthZipkinServerApplication.class, args);
+                }
+            }
+
+        4.resources下导入mysql文件
+          地址：
+              https://github.com/openzipkin/zipkin/blob/master/zipkin-storage/mysql-v1/src/main/resources/mysql.sql
+
+
+        5.访问地址
+            http://localhost:9999/zipkin/

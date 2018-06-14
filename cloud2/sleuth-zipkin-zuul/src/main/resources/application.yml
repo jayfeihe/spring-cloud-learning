@@ -1,0 +1,11 @@
+spring:
+  zipkin:
+    base-url: http://localhost:9999
+  sleuth:
+    sampler:
+      probability: 1.0
+zuul:
+  routes:
+    api-a:
+      path: /user-api/**
+      serviceId: microservice-zipkin-client-backend

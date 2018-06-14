@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/api-zuul-gateway/api-zuul-gateway.iml" filepath="$PROJECT_DIR$/api-zuul-gateway/api-zuul-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/cloud1.iml" filepath="$PROJECT_DIR$/.idea/cloud1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/compute-service-provider/compute-service-provider.iml" filepath="$PROJECT_DIR$/compute-service-provider/compute-service-provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/config-client/config-client.iml" filepath="$PROJECT_DIR$/config-client/config-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/config-server/config-server.iml" filepath="$PROJECT_DIR$/config-server/config-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/config-server-native-local/config-server-native-local.iml" filepath="$PROJECT_DIR$/config-server-native-local/config-server-native-local.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-feign/eureka-feign.iml" filepath="$PROJECT_DIR$/eureka-feign/eureka-feign.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-ribbon/eureka-ribbon.iml" filepath="$PROJECT_DIR$/eureka-ribbon/eureka-ribbon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eurka-server/eurka-server.iml" filepath="$PROJECT_DIR$/eurka-server/eurka-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hystrix-feign-consumer/hystrix-feign-consumer.iml" filepath="$PROJECT_DIR$/hystrix-feign-consumer/hystrix-feign-consumer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hystrix-turbine-monitor/hystrix-turbine-monitor.iml" filepath="$PROJECT_DIR$/hystrix-turbine-monitor/hystrix-turbine-monitor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-provider1/service-provider1.iml" filepath="$PROJECT_DIR$/service-provider1/service-provider1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-provider2/service-provider2.iml" filepath="$PROJECT_DIR$/service-provider2/service-provider2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zuul-book-service/zuul-book-service.iml" filepath="$PROJECT_DIR$/zuul-book-service/zuul-book-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zuul-sale-service/zuul-sale-service.iml" filepath="$PROJECT_DIR$/zuul-sale-service/zuul-sale-service.iml" />
+    </modules>
+  </component>
+</project>
