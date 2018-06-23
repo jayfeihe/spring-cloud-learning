@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: oauth2-resource
+  # 配置mysql
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/jay_db1?zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2b8
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  security:
+      user:
+      #Security的登录名和密码
+        name: root
+        password: root
+
+security:
+  oauth2:
+    resource:
+      filter-order: 3
+      #用于获取当前Token的用户信息
+      user-info-uri: http://localhost:5000/users/current
+    #Oauth2的客户端配置
+    client:
+      client-secret: 123456
+      id: oauth2-resource
+      access-token-uri: http://5000/oauth/token
+      grant-type: client_credentials,password
+      scope: server
+
