@@ -20,6 +20,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 采用RemoteTokenServices方式对Token进行验证，
+     * 如果其他资源服务需要验证Token，则需要远程调用授权服务器暴露的验证Token的API接口，
+     *
+     * 此接口为：验证token的API接口
+     *
+     *
+     * @param principal
+     * @return
+     */
     @RequestMapping(value = "/current", method = RequestMethod.GET)
     public Principal getUser(Principal principal) {
         return principal;
