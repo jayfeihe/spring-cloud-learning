@@ -1,0 +1,10 @@
+spring:
+  # 配置mysql
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/jay_db1?zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2b8
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

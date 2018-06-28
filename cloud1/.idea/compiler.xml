@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="abtest-service" />
         <module name="api-zuul-gateway" />
         <module name="compute-service-provider" />
         <module name="config-client" />
@@ -23,6 +24,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="abtest-service" target="1.8" />
       <module name="api-zuul-gateway" target="1.8" />
       <module name="cloud-sleuth-zipkin" target="1.8" />
       <module name="cloud-sleuth-zipkin-client" target="1.8" />
