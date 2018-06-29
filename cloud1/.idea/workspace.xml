@@ -254,8 +254,8 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="1185" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="1286" />
     <option name="y" value="-30" />
     <option name="width" value="1920" />
     <option name="height" value="1003" />
@@ -1253,7 +1253,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>Maven: antlr:antlr:2.7.7</last-edited>
+          <last-edited />
           <splitter-proportions>
             <option name="proportions">
               <list>
