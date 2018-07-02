@@ -1,4 +1,4 @@
-package com.jay.abtest.vo;
+package com.jay.vo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -14,4 +14,7 @@ import org.springframework.stereotype.Component;
 public class AbTestConfigFactory {
     @Autowired
     private InsuranceAbTestConfig insuranceAbTestConfig;
+    @Autowired
+    private MultiAbTestConfig multiAbTestConfig;
+
 }
