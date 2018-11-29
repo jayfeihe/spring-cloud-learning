@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jay.cron.DBQueueRepo">
+
+    <!-- 配置映射字段 -->
+    <resultMap type="com.jay.cron.DBMessage" id="tab_notify">
+        <id property="id" column="id"/>
+        <result property="msgTopic" column="notify_type"/>
+        <result property="msgKey" column="notify_key"/>
+        <result property="msgContent" column="notify_content"/>
+        <result property="msgStatus" column="notify_status"/>
+        <result property="msgTime" column="notify_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="env" column="env"/>
+    </resultMap>
+
+    <resultMap type="com.jay.cron.DBMessageSummary" id="tab_notify_summary">
+        <id property="id" column="id"/>
+        <result property="msgTopic" column="notify_type"/>
+        <result property="msgTime" column="notify_time"/>
+    </resultMap>
+
+    <insert id="insertWithId" useGeneratedKeys="true" keyProperty="id">
+        insert into dm_com_notify (
+        id,
+        notify_type,
+        notify_key,
+        notify_content,
+        notify_status,
+        notify_time
+        <if test="env!=''">
+            ,env
+        </if>
+        )
+        values(#{id}, #{msgTopic}, #{msgKey}, #{msgContent}, #{msgStatus}, #{msgTime}
+        <if test="env!=''">
+            , #{env}
+        </if>
+        )
+    </insert>
+
+    <update id="update">
+        update dm_com_notify
+        set
+        notify_key=#{msgKey},
+        notify_content=#{msgContent},
+        notify_status=#{msgStatus},
+        notify_time=#{msgTime},
+        finish_time=#{finishTime}
+        where id=#{id}
+    </update>
+
+    <select id="getByTopicAndKey" resultMap="tab_notify">
+        select * from dm_com_notify where notify_type=#{msgTopic} and notify_key=#{msgKey}
+    </select>
+
+    <select id="get" resultMap="tab_notify">
+        select * from dm_com_notify where id=#{id}
+    </select>
+
+    <select id="getInitMsgList" resultMap="tab_notify_summary">
+        <choose>
+            <when test="env!=''">
+                select * from (select * from dm_com_notify where
+                notify_status=1
+                <![CDATA[ and notify_time<#{maxTime} ]]>
+                <![CDATA[ and notify_time>#{minTime} ]]>
+                and env=#{env}
+                ) a where a.id>#{minId}
+                order by notify_time limit 1024;
+            </when>
+            <otherwise>
+                select id, notify_type, notify_time from dm_com_notify where
+                notify_status=1
+                <![CDATA[ and notify_time<#{maxTime} ]]>
+                <![CDATA[ and notify_time>#{minTime} ]]>
+                <!-- and id>#{minId} -->
+                order by notify_time limit 10240;
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getByContentAndStatus" resultMap="tab_notify">
+        select * from dm_com_notify
+        where
+        notify_content=#{msgContent}
+        and notify_type=#{msgTopic}
+        and notify_status=#{msgStatus}
+        <if test="env!=''">
+            and env=#{env}
+        </if>
+        limit 1
+    </select>
+
+    <select id="getListByContentAndStatus" resultMap="tab_notify">
+        select * from dm_com_notify
+        where
+        notify_content=#{msgContent}
+        and notify_type=#{msgTopic}
+        and notify_status=#{msgStatus}
+        <if test="env!=''">
+            and env=#{env}
+        </if>
+    </select>
+
+    <!--
+        create table dm_com_notify (
+            id int AUTO_INCREMENT comment '通知编号',
+            notify_type varchar(32) not null default 0 comment '数据分类/渠道',
+            notify_key varchar(32) not null comment '业务主键 申请编号',
+            notify_content text not null default '' comment '通知内容',
+            notify_status tinyint not null default 0 comment '0草稿 1初始 2完成',
+            notify_time datetime default null comment '推送时间',
+            create_time timestamp not NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+            primary key (id),
+            unique index (notify_type, notify_key),
+            index(notify_type, notify_status)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '需要通知其他系统的数据';
+
+        alter table dm_com_notify add env varchar(32) not null default 'prod' comment '运行环境';
+        // 测试环境默认为 test01
+    -->
+</mapper>

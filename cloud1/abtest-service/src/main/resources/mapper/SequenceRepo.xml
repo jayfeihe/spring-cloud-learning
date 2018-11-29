@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jay.cron.sequence.repo.SequenceRepo">
+
+    <sql id="sys_sequence_sql">
+            id, sequence_name, sequence_value
+        </sql>
+
+    <insert id="insertSequence" parameterType="hashMap">
+        INSERT INTO sys_sequence(<include refid="sys_sequence_sql"/>)
+        VALUES(#{SequenceID},#{SequenceName},#{SequenceValue})
+    </insert>
+
+    <update id="updateSequence" statementType="PREPARED" parameterType="map">
+        UPDATE sys_sequence
+        <set>
+            <if test="Step != null">sequence_value = sequence_value + #{Step},</if>
+        </set>
+        WHERE id = #{SequenceID}
+    </update>
+
+    <select id="getSequence" statementType="PREPARED" parameterType="map" resultType="Integer">
+        SELECT sequence_value
+        FROM sys_sequence
+        <where>
+            <if test="SequenceID != null">
+                id = #{SequenceID}
+            </if>
+        </where>
+    </select>
+    <!--
+
+    CREATE TABLE `sys_sequence` (
+      `sequence_id` BIGINT(21) NOT NULL AUTO_INCREMENT COMMENT '主键',
+      `sequence_name` VARCHAR(50) NOT NULL COMMENT 'sequence名称',
+      `sequence_value` INT(11) NOT NULL COMMENT 'sequence值',
+      PRIMARY KEY (`sequence_id`)
+    ) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+    -->
+</mapper>

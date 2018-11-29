@@ -18,12 +18,12 @@ public class DBMessage {
 
     private int id;
     private String msgTopic;  // 定时任务执行的 BeanName
-    private String msgKey;
-    private String msgContent;
+    private String msgKey;  //根据时间生成的任务标识
+    private String msgContent; //任务执行参数
     private int msgStatus;  // 0未推送 1已推送 2推送失败
     private Date msgTime = DateUtils.getNowDate();
-    private Date createTime;
-    private Date finishTime;
+    private Date createTime;  //创建时间
+    private Date finishTime;  //任务执行完成时间
     private String env;
 
     public String getUniqueKey() {
