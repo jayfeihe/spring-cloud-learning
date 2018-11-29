@@ -7,7 +7,7 @@ import java.util.concurrent.Callable;
 
 @Slf4j
 public class ConsumerExecutor implements Callable<DBMessage> {
-    private DBQueue notilsfyService;
+    private DBQueue notifyService;
     private Consumer processor;
     private DBMessage notify;
     private Map<String, DeletingNode> deletingMap;
